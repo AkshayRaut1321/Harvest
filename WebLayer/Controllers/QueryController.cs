@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Harvest.Controllers
+namespace WebLayer.Controllers
 {
     [Route("/api/[controller]")]
     public class QueryController : Controller

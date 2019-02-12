@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
 
-namespace Harvest.Controllers
+namespace WebLayer.Controllers
 {
     [Route("api/[controller]")]
     public class SampleDataController : Controller
