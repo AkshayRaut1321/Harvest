@@ -21,7 +21,7 @@ namespace WebLayer.Controllers
         [HttpGet("[action]")]
         public IEnumerable<WeatherForecast> WeatherForecasts()
         {
-            HttpContext.Session.SetString("name", "akshay");
+            // HttpContext.Session.SetString("name", "akshay");
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
@@ -35,10 +35,10 @@ namespace WebLayer.Controllers
         public IActionResult TestQueryApi()
         {
 
-            return Ok(HttpContext.Session.GetString("name"));
+            // return Ok(HttpContext.Session.GetString("name"));
             // Approach 1
-            // QueryController qc = new QueryController();
-            // return Ok(qc.GetQuery());
+            QueryController qc = new QueryController();
+            return Ok(qc.GetQuery());
 
             // Approach 2
             // var request = HttpWebRequest.Create("http://" + Request.Host.Value + "/api/query/");
