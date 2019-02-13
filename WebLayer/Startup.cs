@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace WebLayer
 {
@@ -29,13 +30,20 @@ namespace WebLayer
             //     options.CheckConsentNeeded = context => false;
             //     options.MinimumSameSitePolicy = SameSiteMode.None;
             // });
-            services.AddDistributedMemoryCache();
-            services.AddSession(options =>
-            {
-                options.IdleTimeout = TimeSpan.FromMinutes(10);
-                options.Cookie.HttpOnly = true;
-                options.Cookie.IsEssential = true;
-            });
+            
+            // services.AddDistributedMemoryCache();
+            // services.AddSession(options =>
+            // {
+            //     options.IdleTimeout = TimeSpan.FromMinutes(10);
+            //     options.Cookie.HttpOnly = true;
+            //     options.Cookie.IsEssential = true;
+            // });
+
+            #region Claims Cookie Authentication
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie();
+            #endregion
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -61,7 +69,12 @@ namespace WebLayer
             // app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
-            app.UseSession();
+
+            #region Claims Cookie Authentication
+            app.UseAuthentication();
+            #endregion
+            
+            // app.UseSession();
             // app.UseCookiePolicy();
             app.UseMvc(routes =>
             {

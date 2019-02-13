@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 
 namespace WebLayer.Controllers
 {
@@ -19,9 +22,27 @@ namespace WebLayer.Controllers
         };
 
         [HttpGet("[action]")]
-        public IEnumerable<WeatherForecast> WeatherForecasts()
+        public async Task<IEnumerable<WeatherForecast>> WeatherForecasts()
         {
-            // HttpContext.Session.SetString("name", "akshay");
+            #region Login - Claims Cookie Authentication
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, "akshay.raut@gmail.com"),
+                new Claim("FullName", "Akshay Raut"),
+                new Claim(ClaimTypes.Role, "Administrator"),
+            };
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var authProperties = new AuthenticationProperties();
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+            #endregion
+
+            #region Logout - Claims Cookie Authentication
+            // await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            #endregion
+
+            #region Session service - Authentication
+                // HttpContext.Session.SetString("name", "akshay");
+            #endregion
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
