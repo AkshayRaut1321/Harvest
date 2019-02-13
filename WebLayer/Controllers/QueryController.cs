@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Query.DAL;
 
 namespace WebLayer.Controllers
 {
@@ -8,6 +9,9 @@ namespace WebLayer.Controllers
         [HttpGet]
         public Query GetQuery()
         {
+            Class1 c = new Class1();
+            c.Log("hello world");
+
             Query q = new Query();
             q.ID = 20;
             q.Name = "New query";
